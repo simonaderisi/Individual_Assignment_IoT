@@ -49,17 +49,17 @@ This file contains the code to generate the audio signal and play it.
 In the laboratory is present a programmable DC power supply that I used to monitor the power. I fixed the voltage to 5V and supplied it to the ESP32. The device actually showed also the current and power that it was providing. The experiment was conducted in this way:
 1. First I started by always sampling at an high frequency, without any FFT calculation.
 2. Then I sampled continuously but with the adapted frequency. I did the experiment with 3 different signal frequencies
-    - Signal frequency at 3000 (order of thousands)
-    - Signal frequency at 400 (order of hundreds)
-    - Signal frequency at 50 (order of tens)
+    - Signal frequency at 300 (order of hundreds)
+    - Signal frequency at 40 (order of tens)
+    - Signal frequency at 4 (order of units)
 
 These are the results that I obtained:
 | Frequency (Hz)      | Power consumption(W) | Saving (%) |
 | ------------------- | -------------------- | ---------- |
-| not adapted - 10000 | p1                   |   -        |
-| adapted - 3000      | p2                   |   bggb     |
-| adapted - 400       | p3                   |  gbgbgbgb  |
-| adapted - 50        | p4                   | bgbvgbgf   |
+| not adapted - 1000  | p1                   |   -        |
+| adapted - 300       | p2                   |   bggb     |
+| adapted - 40        | p3                   |  gbgbgbgb  |
+| adapted - 4         | p4                   | bgbvgbgf   |
 
 ### Latency
 The edge server that should receive the aggregated value in this case is my computer. To compute the latency from the point the data are generated up to the point they are received from my computer I made the ESP32 send an mqtt message when it starts to generate the signal and when it has computed the aggregated value. The python code that acts as a subscriber prints the timestamp at which it receives the messages. At this point it is sufficient to do a simple substraction to find out the latency required.
@@ -72,4 +72,4 @@ But we are fixing the  time window on which to compute the  aggregated value, an
 
 
 ## Problems encountered and future development
-circuito per prendere audio direttamente dal jack
+I tried to take the signal directly from the jack cable from my PC. What I did is to take a pair of headphones with the cable and isolate the ground and one of the signal wire. At this point the problem is that from the signal wire we have also negative values that the ESP32 is  not able to read, so I built a circuit like  the one in the figure to be able to re-center the signal not on 0 but at 1600 mV (thanks to the 2 resistor). Then the idea was to generate an udio signal with the `wave.py` script and sample it. In doing so I encountered some problems, the signal is sampled and it seems to have an oscillation, but when I compute the FFT and then the magnitudes for the frequencies the z-scores are very low. I saw that there was an high frequency in 0 and so I also tried to remove it from code and the situation was somewhat better but not sufficient.

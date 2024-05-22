@@ -77,14 +77,13 @@ void fft(){
 
 void aggregated_function(){
     //compute number of measurements that we need to do to have data on a time window of TIME_WINDOW
-    int number_of_measurements = ceil(TIME_WINDOW * sample_rate / NO_OF_SAMPLES);
+    int number_of_measurements = ceil((float)TIME_WINDOW * (float)sample_rate / (float)NO_OF_SAMPLES);
     ESP_LOGI(TAG_MAIN, "With sample rate %d Hz, we need %d measurements.", sample_rate, number_of_measurements);
     float aggregate_intermediates [number_of_measurements];     //to store intermediate aggregated valued
     float* my_signal;
     for (int i=0; i<number_of_measurements; i++){
         my_signal = sensing(sample_rate);
         aggregate_intermediates[i] = compute_aggregate_function(&my_signal[0], N);
-        //mqtt_publish("Intermediate aggregate function computed");
     }
     float aggregated_value = compute_aggregate_function(&aggregate_intermediates[0], number_of_measurements);
     ESP_LOGW(TAG_MAIN, "aggregated value is %f\n", aggregated_value);
@@ -92,7 +91,24 @@ void aggregated_function(){
     //communicate aggregated value through MQTT
     char value[10];
     sprintf(value, "%f", aggregated_value);
-    mqtt_publish(strcat(strcat("Aggregated value is ", value), "\0"));
+
+    // Calcolare la lunghezza necessaria per il messaggio finale
+    const char *prefix = "Aggregated value is ";
+    size_t message_length = strlen(prefix) + strlen(value) + 1; // +1 per il terminatore nullo
+
+    // allocate memory for final message
+    char *message = (char *)malloc(message_length * sizeof(char));
+    if (message == NULL) {
+        // Gestione dell'errore di allocazione della memoria
+        fprintf(stderr, "Memory allocation failed\n");
+        return;
+    }
+
+    // Costruire il messaggio finale
+    strcpy(message, prefix);
+    strcat(message, value);
+
+    mqtt_publish(message);
 }
 
 

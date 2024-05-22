@@ -1,8 +1,8 @@
 /**
  * Set here your wifi credentials anc  the number of times that you want  to retry the connection
 */
-#define WIFI_SSID      "Vodafone_ZerpaHouse"//TIM-63262762""SimonaWifi"
-#define WIFI_PASS      "Lospolloshermanos!!"//"tkx7NXEuN7UDsURceSffU97e""ciucciaciuccia"
+#define WIFI_SSID      "SimonaWifi"//TIM-63262762"
+#define WIFI_PASS      "password"//"tkx7NXEuN7UDsURceSffU97e"
 #define MAXIMUM_RETRY  5
 
 #define WIFI_CONNECTED_BIT BIT0     // we are connected to the  Access Point with an IP

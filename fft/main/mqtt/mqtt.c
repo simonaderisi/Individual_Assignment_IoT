@@ -43,8 +43,8 @@ esp_err_t mqtt_event_handler_cb(esp_mqtt_event_handle_t event)
         printf("DATA=%.*s\r\n", event->data_len, event->data);
         struct timeval tv_now;
         gettimeofday(&tv_now, NULL);
-        int64_t time_us = (int64_t)tv_now.tv_sec * 1000000L + (int64_t)tv_now.tv_usec;
-        printf("Time of the message: %llu", time_us);
+        int64_t time_ms = (int64_t)tv_now.tv_sec * 1000L + (int64_t)tv_now.tv_usec / 1000L;
+        printf("Time of the message: %llu", time_ms);
         break;
     case MQTT_EVENT_ERROR:
         ESP_LOGI(TAG_MQTT, "MQTT_EVENT_ERROR");
@@ -65,6 +65,10 @@ void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event
 
 void mqtt_publish(char *message){
     esp_mqtt_client_publish(client, MQTT_TOPIC_OUTPUT, message, 0, 1, 0);
+    struct timeval tv_now;
+    gettimeofday(&tv_now, NULL);
+    int64_t time_ms = (int64_t)tv_now.tv_sec * 1000L + (int64_t)tv_now.tv_usec / 1000L;
+    printf("Time of the message: %llu", time_ms);
 }
 
 

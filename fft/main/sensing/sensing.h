@@ -3,7 +3,7 @@
 #define SAMPLE_RATE     1000        // Sample rate in Hz
 #define INTERVAL        1000        // Interval of time to update the sample rate
 #define ADC_UNIT ADC_UNIT_1         //ADC unit of the  ESP32
-#define ADC_CHANNEL ADC1_CHANNEL_0  //ADC channel
+#define ADC_CHANNEL ADC1_CHANNEL_1  //ADC channel
 
 
 /**

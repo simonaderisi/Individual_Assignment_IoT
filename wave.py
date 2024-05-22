@@ -9,8 +9,8 @@ if __name__ == "__main__":
     sps = 44100
 
     # Frequency / pitch
-    freq_hz = 4000
-    freq_hz_2 = 100
+    freq_hz = 40
+    freq_hz_2 = 10
 
     # Duration
     duration_s = 120.0

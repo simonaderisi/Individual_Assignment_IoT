@@ -50,9 +50,9 @@ float* sensing(int sample_rate){
     ESP_LOGI(TAG_SENSING, "Sampling at %d Hz", sample_rate);
     float t;
     for (int i = 0; i < NO_OF_SAMPLES; i++) {
-        //my_signal[i] = esp_adc_cal_raw_to_voltage(adc1_get_raw(ADC_CHANNEL), &adc_chars);
-        t = (float)i / sample_rate;
-        my_signal[i] = 2 * sin(2 * M_PI * 4 * t) + 4 * sin(2 * M_PI * 2 * t);
+        my_signal[i] = esp_adc_cal_raw_to_voltage(adc1_get_raw(ADC_CHANNEL), &adc_chars);
+        //t = (float)i / sample_rate;
+        //my_signal[i] = 2 * sin(2 * M_PI * 40 * t) + 4 * sin(2 * M_PI * 25 * t);
         vTaskDelay(pdMS_TO_TICKS(1000 / sample_rate));      //delay between two samples 
     }
     return &my_signal[0];

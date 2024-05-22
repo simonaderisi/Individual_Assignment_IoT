@@ -56,7 +56,7 @@ void fft(){
     //get the signal
     float* my_signal = sensing(sample_rate);
 
-    //my_signal = remove_DC();
+    my_signal = remove_DC();
 
     //compute fft on the signal
     float *y = calculate_fft(&my_signal[0]);

@@ -65,17 +65,17 @@ These are the results that I obtained:
 The edge server that should receive the aggregated value in this case is my computer. To compute the latency from the point the data are generated up to the point they are received from my computer I made the ESP32 send an mqtt message when it starts to generate the signal and when it has computed the aggregated value. The python code that acts as a subscriber prints the timestamp at which it receives the messages. At this point it is sufficient to do a simple substraction to find out the latency required.
 I measured the time both from python and from inside the code of the esp (following the images). In particular inside the ESP32 I printed the time in milliseconds both when I sent the packet and when I receive it (to do so I subscribed to the same topic in which I publish the messages). I measured a delay between 181 and 718 ms from the moment I send the message and the moment I receive it inside the ESP32. Considering the times at which I publish the messages (so the effective time that the ESP used to calculate the values) is 5,136 s (time window was of 5 s). Considering the times at which the ESP receives the messages I measure a time delay of 4,7 s, this is because the first message took longer. If I measure the delay in Python I have a latency of ~5,1 s and ~4 seconds in the two measurements that I made.
 So, if I consider the real time the "I started sampling" message was sent and the time at which the "aggregated value is" message was received the end-to-end latency is of 5,427 s.
-![Time of MQTT messages measured in the ESP]("images/latency_esp.png")
-![Time of MQTT messages measured in Python]("images/latency_py.png")
+![Time of MQTT messages measured in the ESP](images/latency_esp.png)
+![Time of MQTT messages measured in Python](images/latency_py.png)
 
 ### Volume of data transmitted
 The volume of data transmitted over the network is the same for both the oversampling case and the adapted sampling frequency. In fact in both cases we simply send an MQTT message when the aggregated value is computed, and the aggregated value is computer over a time window which is fixed. If instead we wanted to compute the aggregated value over a fixed number of samples, then in this case obviously the time spent to sample is different and in the case of the oversampled signal it will take less time and so more messages on the network in the long run. For example if I have a signal at frequency f=100 Hz (so I sample at 200 Hz), to take N=1024 samples it will take t = N * (1/(2\*f)) = 5,12 ms; while if I sample at 10000 Hz, t = N * (1/10000) = 0,1 ms. So in say 1 seconds 195 packets will be sent in the adjusted case and 9765 in the oversampled case.
 But we are fixing the  time window on which to compute the  aggregated value, and so if for example the time window is  5 seconds, after 5 seconds + some latency we will have only 1 packet in both cases.
 Now, the size of each packet is 92 B as shown in the figure (the packet of 140B and 156B are the other control messages that I send to know if I'm sampling at maximum rate or adjusted rate):
-![Wireshark capture]("images/wireshark.png")
+![Wireshark capture](images/wireshark.png)
 
 
 ## Problems encountered and future development
 I tried to take the signal directly from the jack cable from my PC. What I did is to take a pair of headphones with the cable and isolate the ground and one of the signal wire. At this point the problem is that from the signal wire we have also negative values that the ESP32 is  not able to read, so I built a circuit like  the one in the figure to be able to re-center the signal not on 0 but at 1600 mV (thanks to the 2 resistor). Then the idea was to generate an udio signal with the `wave.py` script and sample it. In doing so I encountered some problems, the signal is sampled and it seems to have an oscillation, but when I compute the FFT and then the magnitudes for the frequencies the z-scores are very low. I saw that there was an high frequency in 0 and so I also tried to remove it from code and the situation was somewhat better but not sufficient.
-![The circuit]("images/circuit.jpg")
-![The circuit I built]("images/my_circuit.jpg")
+![The circuit](images/circuit.jpg)
+![The circuit I built](images/my_circuit.jpg)

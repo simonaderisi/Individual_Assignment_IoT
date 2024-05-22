@@ -56,10 +56,10 @@ In the laboratory is present a programmable DC power supply that I used to monit
 These are the results that I obtained:
 | Frequency (Hz)      | Power consumption(W) | Saving (%) |
 | ------------------- | -------------------- | ---------- |
-| not adapted - 1000  | p1                   |   -        |
-| adapted - 300       | p2                   |   bggb     |
-| adapted - 40        | p3                   |  gbgbgbgb  |
-| adapted - 4         | p4                   | bgbvgbgf   |
+| not adapted - 1000  | 0.27                 |   -        |
+| adapted - 300       | 0.26                 |   4        |
+| adapted - 40        | 0.26                 |  4         |
+| adapted - 4         | 0.26                 | 4          |
 
 ### Latency
 The edge server that should receive the aggregated value in this case is my computer. To compute the latency from the point the data are generated up to the point they are received from my computer I made the ESP32 send an mqtt message when it starts to generate the signal and when it has computed the aggregated value. The python code that acts as a subscriber prints the timestamp at which it receives the messages. At this point it is sufficient to do a simple substraction to find out the latency required.

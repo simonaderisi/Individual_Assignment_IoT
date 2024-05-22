@@ -1,0 +1,11 @@
+{
+    "idf.adapterTargetName": "esp32s3",
+    "idf.openOcdConfigs": [
+        "interface/ftdi/esp32_devkitj_v1.cfg",
+        "target/esp32s3.cfg"
+    ],
+    "files.associations": {
+        "esp_log.h": "c",
+        "esp_dsp.h": "c"
+    }
+}

@@ -52,5 +52,5 @@ Mkfile.old
 dkms.conf
 
 #build
-??/build
-??/managed_components
+fft/build/
+fft/managed_components/

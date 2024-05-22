@@ -1,0 +1,1 @@
+COMPONENT_EMBED_TXTFILES := mqtt_mosquitto_io.pem

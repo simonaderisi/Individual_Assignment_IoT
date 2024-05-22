@@ -88,23 +88,19 @@ void aggregated_function(){
     float aggregated_value = compute_aggregate_function(&aggregate_intermediates[0], number_of_measurements);
     ESP_LOGW(TAG_MAIN, "aggregated value is %f\n", aggregated_value);
 
-    //communicate aggregated value through MQTT
+    /**-- communicate aggregated value through MQTT --*/
     char value[10];
     sprintf(value, "%f", aggregated_value);
-
-    // Calcolare la lunghezza necessaria per il messaggio finale
+    // calculate needed length
     const char *prefix = "Aggregated value is ";
     size_t message_length = strlen(prefix) + strlen(value) + 1; // +1 per il terminatore nullo
-
     // allocate memory for final message
     char *message = (char *)malloc(message_length * sizeof(char));
     if (message == NULL) {
-        // Gestione dell'errore di allocazione della memoria
         fprintf(stderr, "Memory allocation failed\n");
         return;
     }
-
-    // Costruire il messaggio finale
+    // construct final message
     strcpy(message, prefix);
     strcat(message, value);
 
@@ -126,14 +122,9 @@ void app_main()
     fft();
 
     // while(1){
-    //     mqtt_publish("Starting calculation with maximum sample rate");
+    //    aggregated_function();
+    //}
 
-    //     aggregated_function();
-    // }
-
-    
-
-    
 
     mqtt_publish("Starting calculation with adjusted sample rate");
     

@@ -52,7 +52,7 @@ float* sensing(int sample_rate){
     for (int i = 0; i < NO_OF_SAMPLES; i++) {
         //my_signal[i] = esp_adc_cal_raw_to_voltage(adc1_get_raw(ADC_CHANNEL), &adc_chars);
         t = (float)i / sample_rate;
-        my_signal[i] = 2 * sin(2 * M_PI * 400 * t) + 4 * sin(2 * M_PI * 300 * t);
+        my_signal[i] = 2 * sin(2 * M_PI * 4 * t) + 4 * sin(2 * M_PI * 2 * t);
         vTaskDelay(pdMS_TO_TICKS(1000 / sample_rate));      //delay between two samples 
     }
     return &my_signal[0];
